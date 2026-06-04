@@ -19,16 +19,15 @@ def main():
     Y_train = train_df['Target'].values
     # download model nếu chưa tồn tại
     print("\nTrain KFold ...")
-    best_model, logs = train_kfold(
+    best_model, logs, fold_summary_df = train_kfold(
         X_text_train, X_stock_train, X_type_train, X_days_train, 
         Y_train, num_stocks, num_types
     )
     
     print("\nSaving Result ...")
-    df_logs = save_logs(logs)
+    df_logs = save_logs(logs, name = "training_logs.xlsx")
     plot_metrics(df_logs, Config.SAVE_PLOTS)
-
-
+    df_logs2 = save_logs(fold_summary_df, "Summary.xlsx")
     print("\nTest Finall...")
     X_text_test = extract_phobert_embeddings(test_df['Title'].tolist())
     result_test = test(

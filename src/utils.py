@@ -14,11 +14,10 @@ def set_seed(seed: int = 42):
     torch.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
 
-def save_logs(logs):
+def save_logs(logs: list, name: str):
     df_logs = pd.DataFrame(logs)
     os.makedirs(Config.LOG_FILE, exist_ok = True)
-    df_logs.to_excel(os.path.join(Config.LOG_FILE, "training_logs.xlsx"), index=False)
-    print(f"Saved training logs to {Config.LOG_FILE}")
+    df_logs.to_excel(os.path.join(Config.LOG_FILE, name), index=False)
     return df_logs
 
 def plot_metrics(df_logs, save_dir="plots"):
